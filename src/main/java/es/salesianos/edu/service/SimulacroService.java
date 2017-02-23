@@ -26,7 +26,7 @@ public class SimulacroService {
 		return true;
 	}
 
-	public List searchAll(Author author) {
+	public List searchAllAuthor(Author author) {
 		List list = new ArrayList();
 		if (author.getNameAuthor() != null) {
 			Author author1 = new Author();
@@ -41,6 +41,32 @@ public class SimulacroService {
 			list.add(author1);
 			list.add(author2);
 			list.add(author3);
+		}
+
+		return list;
+	}
+	
+	public List searchAllBook(Book book) {
+		List list = new ArrayList();
+		if (book.getNameAuthor() != null) {
+			Book book1 = new Book();
+			book1.setNameBook("Bat");
+			book1.setIsbn("145");
+			book1.setNameAuthor("julio");
+			
+			Book book2 = new Book();
+			book2.setNameBook("Bt");
+			book2.setIsbn("15");
+			book2.setNameAuthor("jlio");
+			
+			Book book3 = new Book();
+			book3.setNameBook("at");
+			book3.setIsbn("45");
+			book3.setNameAuthor("juli");
+
+			list.add(book1);
+			list.add(book2);
+			list.add(book3);
 		}
 
 		return list;

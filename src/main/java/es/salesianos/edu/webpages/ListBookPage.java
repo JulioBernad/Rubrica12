@@ -10,6 +10,7 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -18,10 +19,10 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import es.salesianos.edu.model.Author;
+import es.salesianos.edu.model.Book;
 import es.salesianos.edu.service.SimulacroService;
 
-public class ListAuthorPage extends WebPage {
+public class ListBookPage extends WebPage {
 
 	private static final long serialVersionUID = -1935854748907274886L;
 
@@ -32,26 +33,26 @@ public class ListAuthorPage extends WebPage {
 
 	private String currentNameSearch = null;
 
-	private List listAuthor = Collections.emptyList();
+	private List listBook = Collections.emptyList();
 
-	public ListAuthorPage(PageParameters parameters) {
+	public ListBookPage(PageParameters parameters) {
 		currentNameSearch = parameters.get("currentSearchTerm").toString();
 		logger.debug("Cargando la pagina con el parametro " + currentNameSearch);
 		initComponents();
 	}
 
-	public ListAuthorPage() {
+	public ListBookPage() {
 		initComponents();
 	}
 
 	private void initComponents() {
 		addForm();
 		addFeedBackPanel();
-		addListAuthorView();
+		addListBookView();
 	}
 
 	private void addForm() {
-		Form form = new Form("formListAuthor", new CompoundPropertyModel(new Author())) {
+		Form form = new Form("formListBook", new CompoundPropertyModel(new Book())) {
 			// @Override
 			// protected void onSubmit() {
 			// super.onSubmit();
@@ -62,40 +63,56 @@ public class ListAuthorPage extends WebPage {
 			// setResponsePage(ListAuthorPage.class, pageParameters);
 			// }
 		};
+		form.add(new Label("nameBookLabel", "nombre libro"));
+		form.add(new Label("isbnLabel", "isbn"));
+		form.add(new Label("nameAuthorLabel", "author.name"));
+		form.add(new RequiredTextField("nameBook"));
+		form.add(new RequiredTextField("isbn"));
+		form.add(new RequiredTextField("nameAuthor"));
+	
+
+		add(form);
+
 		Button okButton = new Button("okbutton") {
 			public void onSubmit() {
-				listAuthor.clear();
+				listBook.clear();
 				info("OK was pressed!");
-				Author author1 = new Author();
-				author1.setNameAuthor("uno");
-				author1.setDateOfBirth(new Date());
-				Author author2 = new Author();
-				author2.setNameAuthor("dos");
-				author2.setDateOfBirth(new Date());
-				Author author3 = new Author();
-				author3.setNameAuthor("tres");
-				author3.setDateOfBirth(new Date());
-				listAuthor.add(author1);
-				listAuthor.add(author2);
-				listAuthor.add(author3);
+				Book book1 = new Book();
+				book1.setNameAuthor("uno");
+				book1.setIsbn("123");
+				book1.setNameAuthor("yo");
+				Book book2 = new Book();
+				book2.setNameAuthor("dos");
+				book2.setIsbn("213");
+				book2.setNameAuthor("tu");
+				Book book3 = new Book();
+				book3.setNameAuthor("tres");
+				book3.setIsbn("231");
+				book3.setNameAuthor("el");
+				listBook.add(book1);
+				listBook.add(book2);
+				listBook.add(book3);
 			}
 		};
 		Button cancelButton = new Button("cancelbutton") {
 			public void onSubmit() {
-				listAuthor.clear();
+				listBook.clear();
 				info("cancel was pressed!");
-				Author author1 = new Author();
-				author1.setNameAuthor("one");
-				author1.setDateOfBirth(new Date());
-				Author author2 = new Author();
-				author2.setNameAuthor("two");
-				author2.setDateOfBirth(new Date());
-				Author author3 = new Author();
-				author3.setNameAuthor("three");
-				author3.setDateOfBirth(new Date());
-				listAuthor.add(author1);
-				listAuthor.add(author2);
-				listAuthor.add(author3);
+				Book book1 = new Book();
+				book1.setNameAuthor("uno");
+				book1.setIsbn("123");
+				book1.setNameAuthor("yo");
+				Book book2 = new Book();
+				book2.setNameAuthor("dos");
+				book2.setIsbn("213");
+				book2.setNameAuthor("tu");
+				Book book3 = new Book();
+				book3.setNameAuthor("tres");
+				book3.setIsbn("231");
+				book3.setNameAuthor("el");
+				listBook.add(book1);
+				listBook.add(book2);
+				listBook.add(book3);
 			}
 		};
 		form.add(okButton);
@@ -110,16 +127,17 @@ public class ListAuthorPage extends WebPage {
 		add(feedbackPanel);
 	}
 
-	private void addListAuthorView() {
-		Author author = new Author();// service.newEntity()
-		author.setNameAuthor(currentNameSearch);
-		listAuthor = service.searchAllAuthor(author);
-		ListView listview = new ListView("author-group", listAuthor) {
+	private void addListBookView() {
+		Book book = new Book();// service.newEntity()
+		book.setNameAuthor(currentNameSearch);
+		listBook = service.searchAllBook(book);
+		ListView listview = new ListView("book-group", listBook) {
 			@Override
 			protected void populateItem(ListItem item) {
-				Author author = (Author) item.getModelObject();
-				item.add(new Label("authorName", author.getNameAuthor()));
-				item.add(new Label("dateOfBirth", author.getDateOfBirth()));
+				Book book = (Book) item.getModelObject();
+				item.add(new Label("authorBook", book.getNameBook()));
+				item.add(new Label("isbn", book.getIsbn()));
+				item.add(new Label("nameAuthor", book.getNameAuthor()));
 			}
 		};
 		add(listview);
