@@ -63,16 +63,6 @@ public class ListBookPage extends WebPage {
 			// setResponsePage(ListAuthorPage.class, pageParameters);
 			// }
 		};
-		form.add(new Label("nameBookLabel", "nombre libro"));
-		form.add(new Label("isbnLabel", "isbn"));
-		form.add(new Label("nameAuthorLabel", "author.name"));
-		form.add(new RequiredTextField("nameBook"));
-		form.add(new RequiredTextField("isbn"));
-		form.add(new RequiredTextField("nameAuthor"));
-	
-
-		add(form);
-
 		Button okButton = new Button("okbutton") {
 			public void onSubmit() {
 				listBook.clear();
@@ -118,7 +108,7 @@ public class ListBookPage extends WebPage {
 		form.add(okButton);
 		form.add(cancelButton);
 
-		form.add(new TextField("nameAuthor"));
+		form.add(new TextField("nameBook"));
 		add(form);
 	}
 
@@ -135,9 +125,9 @@ public class ListBookPage extends WebPage {
 			@Override
 			protected void populateItem(ListItem item) {
 				Book book = (Book) item.getModelObject();
-				item.add(new Label("authorBook", book.getNameBook()));
-				item.add(new Label("isbn", book.getIsbn()));
-				item.add(new Label("nameAuthor", book.getNameAuthor()));
+				item.add(new Label("bookName", book.getNameBook()));
+				item.add(new Label("isbnSpan", book.getIsbn()));
+				item.add(new Label("authorName", book.getNameAuthor()));
 			}
 		};
 		add(listview);
